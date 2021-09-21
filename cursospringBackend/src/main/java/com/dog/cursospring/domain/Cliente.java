@@ -43,7 +43,7 @@ public class Cliente implements Serializable{
 	private Set<String> telefones = new HashSet<>();
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany(mappedBy = "cliente_id")
 	private List<Pedido> pedidos = new ArrayList<>();
 	
 	public Cliente() {

@@ -18,7 +18,6 @@ import com.dog.cursospring.services.exception.ObjectNotFoundException;
 
 @Service
 public class PedidoService {
-	
 	@Autowired
 	private PedidoRepository repo;
 	

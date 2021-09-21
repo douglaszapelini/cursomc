@@ -30,7 +30,6 @@ import com.dog.cursospring.repositories.ItemPedidoRepository;
 import com.dog.cursospring.repositories.PagamentoRepository;
 import com.dog.cursospring.repositories.PedidoRepository;
 import com.dog.cursospring.repositories.ProdutoRepository;
-import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 @SpringBootApplication
 public class CursospringApplication implements CommandLineRunner{
