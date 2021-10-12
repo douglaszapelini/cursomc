@@ -11,6 +11,7 @@ import com.dog.cursospring.domain.ItemPedido;
 import com.dog.cursospring.domain.PagamentoComBoleto;
 import com.dog.cursospring.domain.Pedido;
 import com.dog.cursospring.domain.enums.EstadoPagamento;
+import com.dog.cursospring.repositories.ClienteRepository;
 import com.dog.cursospring.repositories.ItemPedidoRepository;
 import com.dog.cursospring.repositories.PagamentoRepository;
 import com.dog.cursospring.repositories.PedidoRepository;
@@ -33,6 +34,9 @@ public class PedidoService {
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
 	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
 	public Pedido find(Integer id) {
 		Optional<Pedido> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! id:" + id + 
@@ -43,6 +47,7 @@ public class PedidoService {
 	public Pedido insert (Pedido obj) {
 		obj.setId(null);
 		obj.setInstante(new Date());
+		obj.setCliente(clienteRepository.getById(obj.getCliente().getId()));
 		obj.getPagamento().setEstado(EstadoPagamento.PENDENTE);
 		obj.getPagamento().setPedido(obj);
 		if(obj.getPagamento() instanceof PagamentoComBoleto) {
@@ -53,10 +58,13 @@ public class PedidoService {
 		pagamentoRepository.save(obj.getPagamento());
 		for(ItemPedido ip : obj.getItens()) {
 			ip.setDesconto(0.0);
-			ip.setPreco(produtoService.find(ip.getProduto().getId()).getPreco());
+			ip.setProduto(produtoService.find(ip.getProduto().getId()));
+			ip.setPreco(ip.getProduto().getPreco());
 			ip.setPedido(obj);
 		}
 		itemPedidoRepository.saveAll(obj.getItens());
+		
+		System.out.println(obj);
 		return obj;
 	}
 

@@ -1,11 +1,14 @@
 package com.dog.cursospring.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Objects;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.dog.cursospring.utils.Util;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -101,5 +104,19 @@ public class ItemPedido implements Serializable{
 			return false;
 		ItemPedido other = (ItemPedido) obj;
 		return Objects.equals(id, other.id);
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(getProduto().getNome());
+		builder.append(", Quantidade: ");
+		builder.append(getQuantidade());
+		builder.append(", Preço unitário: ");
+		builder.append(Util.formataDoubleParaReal(getPreco()));
+		builder.append(", Subtotal: ");
+		builder.append(Util.formataDoubleParaReal(getSubTotal()));
+		builder.append("\n");
+		return builder.toString();
 	}
 }
